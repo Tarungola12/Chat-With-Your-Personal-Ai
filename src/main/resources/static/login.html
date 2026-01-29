@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; }
+    .box {
+      width: 300px;
+      margin: 100px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+    }
+    input, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Login</h2>
+
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+function login() {
+  fetch('/user/manage/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userEmail: document.getElementById('email').value,
+      userPassword: document.getElementById('password').value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.token) {
+      // ✅ store JWT
+      localStorage.setItem('jwt', data.token);
+
+      // ✅ 1 hour message
+      alert('Login successful. You can chat for 1 hour.');
+
+      // ✅ redirect to chat page
+      window.location.href = 'chat.html';
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(err => alert('Login failed'));
+}
+</script>
+
+</body>
+</html>
+	

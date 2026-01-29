@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; }
+    .box {
+      width: 300px;
+      margin: 100px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+    }
+    input, button {
+      width: 100%;
+      margin: 8px 0;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Signup</h2>
+
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+
+  <button onclick="signup()">Signup</button>
+
+  <p>Already have account? <a href="login.html">Login</a></p>
+</div>
+
+<script>
+function signup() {
+  fetch('/user/manage/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      userEmail: document.getElementById('email').value,
+      userPassword: document.getElementById('password').value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message);
+    if (data.message !== 'User Already Have Account') {
+      window.location.href = 'login.html';
+    }
+  })
+  .catch(err => alert('Error'));
+}
+</script>
+
+</body>
+</html>
