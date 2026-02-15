@@ -54,11 +54,16 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException,java.io.IOException {
 
         log.info("Incoming Request {}", request.getRequestURI());
-
+        System.out.println("procedding further");
         String header = request.getHeader("Authorization");
 
+//        if (header == null || !header.startsWith("Bearer ")) {
+//        	System.out.println("header property : "+header);
+//            filterChain.doFilter(request, response);
+//            return;
+//        }
         if (header == null || !header.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 

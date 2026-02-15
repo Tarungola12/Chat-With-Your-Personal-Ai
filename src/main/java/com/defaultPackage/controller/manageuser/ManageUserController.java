@@ -53,12 +53,13 @@ public class ManageUserController {
 		System.out.println("user request comes here?");
 		LoginReponseJwtToken loginReponseJwtToken = new LoginReponseJwtToken();
 		Authentication authentication = null;
+		
 		// First Authenticate User
 		try {
 			authentication = new UsernamePasswordAuthenticationToken(userCreationRequest.getUserEmail(),
 					userCreationRequest.getUserPassword());
 
-			authenticationManager.authenticate(authentication);
+			authentication = authenticationManager.authenticate(authentication);
 
 		} catch (Exception exception) {
 			loginReponseJwtToken.setMessage("User Not Authenticate and Token is Not generate");
